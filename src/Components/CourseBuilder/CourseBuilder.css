@@ -81,6 +81,18 @@
     padding: 10px;
 }
 
+.kzui-course-builder__sub-curriculum-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 15px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+
 .kzui-course-builder__curriculum-item__header {
     display: flex;
     flex-direction: row;
@@ -128,7 +140,7 @@
     right: 0px;
     padding: 10px;
     background-color: white;
-    z-index: 50;
+    z-index: 99;
 }
 
 .kzui-course-builder__curriculum-item__edit__buttons__edit {
@@ -185,7 +197,13 @@
     cursor: pointer;
 }
 
-
+.kzui-sub-curriculum-content-button{
+    color: #7B68EE;
+    background-color: transparent;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
 
 
 
