@@ -16,7 +16,6 @@ const GeneralSection = () => {
                 <textarea type="text"/>
             </div>
 
-
         </div>
     );
 };
