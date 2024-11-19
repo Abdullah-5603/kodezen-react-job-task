@@ -3,7 +3,7 @@ import './Header.css'
 
 const Header = () => {
     return (
-        <h1 className='header'>
+        <h1 className='kzui-header'>
             Create course
         </h1>
     );

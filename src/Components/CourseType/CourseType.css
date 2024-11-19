@@ -1,0 +1,49 @@
+.kzui-course-type{
+    width: 100%;
+    background-color: white;
+    padding: 0 15px;
+    border: none;
+    border-radius: 5px;
+}
+
+.kzui-course-type h3{
+    width: 100%;
+    padding: 25px 0;
+    border-bottom: 2px solid #eeeeee;
+}
+
+.kzui-course-type__select{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+
+}
+
+.kzui-course-type__select__free{
+    border: 2px solid #7B68EE;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex ;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.kzui-course-type__select__free input:checked {
+    color: #7B68EE;
+}
+
+.kzui-course-type__select__paid{
+    border: 2px solid #eeeeee;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    display: flex ;
+    flex-direction: row;
+    justify-content: space-between;
+}
