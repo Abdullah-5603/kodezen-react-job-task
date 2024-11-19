@@ -1,0 +1,33 @@
+.kzui-course-prerequisite {
+    width: 100%;
+    background-color: white;
+    padding: 15px 15px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.kzui-course-prerequisite h3 {
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 2px solid #eeeeee;
+}
+
+.kzui-course-prerequisite__input{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    margin-top: 15px;
+}
+
+.kzui-course-prerequisite__input select{
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #eeeeee;
+    border-radius: 5px;
+    background-color: white;
+    margin-top: 10px;
+    /* margin-bottom: 15px; */
+}
