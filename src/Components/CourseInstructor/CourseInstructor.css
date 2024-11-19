@@ -1,0 +1,29 @@
+.kzui-course-instructor {
+    width: 776px;
+    padding: 10px 30px;
+    margin: 15px 0;
+    background-color: white;
+    border: none;
+    border-radius: 4px;
+    display: flex;
+    justify-content: start;
+    align-self: start;
+    flex-direction: column;
+}
+
+.kzui-course-instructor h3 {
+    width: 100%;
+    padding: 20px 0;
+    border-bottom: 2px solid #EEEEEE;
+    margin: auto;
+}
+
+.kzui-course-builder__choose-instructor-button{
+    width: 170px;
+    padding: 10px 15px;
+    margin: 10px 0;
+    color: white;
+    background-color: #7B68EE;
+    border: none;
+    border-radius: 5px;
+}
