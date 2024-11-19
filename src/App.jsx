@@ -1,4 +1,5 @@
 import './App.css'
+import CourseOrganization from './Components/CourseOrganization/CourseOrganization'
 import CourseType from './Components/CourseType/CourseType'
 import GeneralSection from './Components/GeneralSection/GeneralSection'
 import Header from './Components/Header/Header'
@@ -16,6 +17,7 @@ function App() {
         </div>
         <div className='kzui-layout__page__right'>
           <CourseType />
+          <CourseOrganization/>
         </div>
       </div>
     </div>

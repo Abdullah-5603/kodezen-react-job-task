@@ -1,0 +1,78 @@
+.kzui-course-organization{
+    width: 100%;
+    background-color: white;
+    padding: 0 15px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+.kzui-course-organization h3{
+    width: 100%;
+    padding: 25px 0;
+    border-bottom: 2px solid #eeeeee;
+}
+
+.kzui-course-organization__category{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    margin-top: 15px;
+}
+.kzui-course-organization__category select{
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #eeeeee;
+    border-radius: 5px;
+    background-color: white;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+.kzui-course-organization__button{
+    color: #7B68EE;
+    background-color: transparent;
+    border: none;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.kzui-course-organization__tag{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    margin-top: 15px;
+}
+
+.kzui-course-organization__tag input{
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #eeeeee;
+    border-radius: 5px;
+    background-color: white;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.kzui-course-organization__excerpt{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    margin-top: 15px;
+}
+
+.kzui-course-organization__excerpt textarea{
+    width: 100%;
+    height: 160px;
+    padding: 10px;
+    border: 2px solid #eeeeee;
+    border-radius: 5px;
+    background-color: white;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
