@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { arrayMoveImmutable } from 'array-move';
 import { BsThreeDots } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { SlCloudUpload } from "react-icons/sl";
@@ -13,6 +16,7 @@ const CourseBuilder = () => {
     const [newCurriculum, setNewCurriculum] = useState(false);
     const [newSubCurriculum, setNewSubCurriculum] = useState(false);
     const [openContentModal, setOpenContentModal] = useState(false);
+    const [openCurriculumModal, setOpenCurriculumModal] = useState(false);
     const [openLessonModal, setOpenLessonModal] = useState(false);
     const [openBuildFromExisting, setOpenBuildFromExisting] = useState(false);
     const [currentCurriculum, setCurrentCurriculum] = useState({});
@@ -87,9 +91,9 @@ const CourseBuilder = () => {
         };
 
         setCurriculumData((prevCurriculumData) => {
-            const isEdit = currentCurriculumId && currentCurriculumId.length > 0;
-            const isSubCurriculum = (currentSubCurriculumId && currentSubCurriculumId.length > 0) || newSubCurriculum;
-
+            const isEdit = currentCurriculumId && (currentCurriculumId.length > 0 || currentCurriculumId > 0);
+            const isSubCurriculum = (currentSubCurriculumId && (currentSubCurriculumId.length > 0 || currentCurriculumId > 0)) || newSubCurriculum;
+            console.log(isSubCurriculum);
             if (isSubCurriculum) {
                 return prevCurriculumData.map((curriculum) => {
                     if (curriculum.id === currentCurriculumId) {
@@ -127,6 +131,7 @@ const CourseBuilder = () => {
         setCurrentSubCurriculumId('');
         setNewCurriculum(false);
         setNewSubCurriculum(false);
+        setOpenCurriculumModal(false);
     };
 
     const handleDeleteCurriculum = (id) => {
@@ -243,18 +248,18 @@ const CourseBuilder = () => {
                             ...curriculum,
                             subCurriculums: curriculum?.subCurriculums?.map((subCurriculum) =>
                                 subCurriculum.id === currentSubCurriculumId
-                            ? {
-                                ...subCurriculum,
+                                    ? {
+                                        ...subCurriculum,
                                         subCurriculumContents: [
                                             ...(subCurriculum?.subCurriculumContents || []),
                                             subLesson,
                                         ],
                                     }
                                     : subCurriculum
-                                ),
-                            };
-                        }
-                        setCurrentLessons((prevLessons) => [...(prevLessons || []), newLesson]);
+                            ),
+                        };
+                    }
+                    setCurrentLessons((prevLessons) => [...(prevLessons || []), newLesson]);
                     if (
                         ((typeof currentSubCurriculumLessonId === 'string' && currentSubCurriculumLessonId.length > 0) ||
                             (typeof currentSubCurriculumLessonId === 'number' && currentSubCurriculumLessonId > 0)) ||
@@ -365,7 +370,9 @@ const CourseBuilder = () => {
                                                 <button
                                                     onClick={() => {
                                                         setActiveEditOption(null)
+                                                        setCurrentCurriculum(curriculum)
                                                         setCurrentCurriculumId(curriculum.id)
+                                                        setOpenCurriculumModal(true)
                                                     }}
                                                     className='kzui-course-builder__curriculum-item__edit__buttons__edit'
                                                 >
@@ -445,6 +452,8 @@ const CourseBuilder = () => {
                                                                             setActiveEditOption2(null)
                                                                             setCurrentCurriculumId(curriculum.id)
                                                                             setCurrentSubCurriculumId(subCurriculum.id)
+                                                                            setCurrentCurriculum(subCurriculum)
+                                                                            setOpenCurriculumModal(true)
 
                                                                         }}
                                                                         className='kzui-course-builder__curriculum-item__edit__buttons__edit'
@@ -544,6 +553,7 @@ const CourseBuilder = () => {
                             </div>
                         ))}
                     </div>
+
                 )}
                 {
                     newCurriculum && (
@@ -561,6 +571,14 @@ const CourseBuilder = () => {
                     + Add New Curriculum
                 </button>
             </div>
+
+            <Modal open={openCurriculumModal} onClose={() => setOpenCurriculumModal(false)} center>
+                <AddNewCurriculum
+                    handleNewCurriculumSubmit={handleCurriculumSubmit}
+                    setNewCurriculum={setNewCurriculum}
+                    curriCulumData={currentCurriculum}
+                />
+            </Modal>
 
             <Modal classNames={{
                 modal: "kzui-content-modal"
