@@ -12,7 +12,7 @@ const GeneralSection = () => {
             </div>
             
             <div className='kzui-general-section__textarea'>
-                <label htmlFor="">Course name</label>
+                <label htmlFor="">Course Description</label>
                 <textarea type="text"/>
             </div>
 

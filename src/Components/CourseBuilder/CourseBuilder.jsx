@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import { BsThreeDots } from "react-icons/bs";
@@ -29,32 +28,7 @@ const CourseBuilder = () => {
     const [expandedCurriculum, setExpandedCurriculum] = useState(null);
     const [expandedCurriculum2, setExpandedCurriculum2] = useState(null);
     const [currentLessons, setCurrentLessons] = useState([]);
-    const [curriculumData, setCurriculumData] = useState([
-        {
-            id: 1, title: 'Curriculum 1', summary: "Curriculum 1 summary",
-            curriculumContents: [
-                { id: 11, lessonTitle: 'Lesson 1', lessonSlug: 'lesson slug', lessonContent: 'Lesson 1 content' },
-                { id: 22, lessonTitle: 'Lesson 2', lessonSlug: 'lesson slug', lessonContent: 'Lesson 2 content' },
-            ],
-            subCurriculums: [
-                {
-                    id: 111, title: 'sub Curriculum 1', summary: "sub Curriculum 1 summary",
-                    subCurriculumContents: [
-                        { id: 1111, lessonTitle: 'sub Lesson 1', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 1 content', checked: false },
-                        { id: 2222, lessonTitle: 'sub Lesson 2', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 2 content', checked: true },
-                    ]
-                },
-                {
-                    id: 222, title: 'sub Curriculum 2', summary: "sub Curriculum 2 summary",
-                    subCurriculumContents: [
-                        { id: 11111, lessonTitle: 'sub Lesson 1', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 1 content', checked: false },
-                        { id: 22222, lessonTitle: 'sub Lesson 2', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 2 content', checked: true },
-                    ]
-                },
-            ]
-        },
-        { id: 2, title: 'Curriculum 2', summary: "Curriculum 2 summary", curriculumContents: [], subCurriculums: [] },
-    ]);
+    const [curriculumData, setCurriculumData] = useState([]);
 
     const onCloseContentModal = () => { setOpenContentModal(false); setOpenBuildFromExisting(false) }
     const onCloseLessonModal = () => setOpenLessonModal(false);
@@ -93,7 +67,6 @@ const CourseBuilder = () => {
         setCurriculumData((prevCurriculumData) => {
             const isEdit = currentCurriculumId && (currentCurriculumId.length > 0 || currentCurriculumId > 0);
             const isSubCurriculum = (currentSubCurriculumId && (currentSubCurriculumId.length > 0 || currentCurriculumId > 0)) || newSubCurriculum;
-            console.log(isSubCurriculum);
             if (isSubCurriculum) {
                 return prevCurriculumData.map((curriculum) => {
                     if (curriculum.id === currentCurriculumId) {
@@ -267,7 +240,6 @@ const CourseBuilder = () => {
                             (typeof currentSubCurriculumId === 'number' && currentSubCurriculumId > 0))
 
                     ) {
-                        console.log(currentSubCurriculumLessonId);
                         return {
                             ...curriculum,
                             subCurriculums: curriculum?.subCurriculums?.map((subCurriculum) => {
@@ -291,7 +263,6 @@ const CourseBuilder = () => {
                             }),
                         };
                     } else {
-                        // Handle curriculum lessons
                         const lessonExists = curriculum?.curriculumContents?.find(
                             (lesson) => lesson.id === currentLessonId
                         );
@@ -331,7 +302,7 @@ const CourseBuilder = () => {
                 )
             }))
         }));
-        setCurrentLessons(updatedLessons); // Update the state
+        setCurrentLessons(updatedLessons);
         setCurriculumData(updatedCurriculumData);
     };
 

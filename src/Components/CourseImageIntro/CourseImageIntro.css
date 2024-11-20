@@ -48,13 +48,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* flex-direction: column; */
 }
 
 .kzui-course-image-intro__content__image h5 {
     margin-top: 10px;
     color: #595959;
-    /* flex-direction: column; */
 }
 
 .kzui-course-image-intro__content__typography{

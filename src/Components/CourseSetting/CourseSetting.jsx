@@ -3,9 +3,6 @@ import './CourseSetting.css'
 
 const CourseSetting = () => {
     return (
-        // <div className='kzui-course-setting'>
-        //     <h3>Course setting</h3>
-        // </div>
         <div className="kzui-course-settings-container">
             <h2 className="kzui-course-settings-title">Course settings</h2>
             <div className="kzui-course-settings-tabs">
@@ -63,7 +60,6 @@ const CourseSetting = () => {
 
                 <div className="kzui-divider"></div>
 
-                {/* Other Fields */}
                 <div className="kzui-course-settings-item">
                     <div className='kzui-cursor-setting-item__text'>
                         <label className="kzui-item-label">Maximum students enroll</label>
@@ -88,9 +84,12 @@ const CourseSetting = () => {
                 </div>
 
                 <div className="kzui-course-settings-item">
-                    <span className="kzui-item-description">
-                        Set the number of courses to show per page on the course list page.
-                    </span>
+                    <div className='kzui-cursor-setting-item__text'>
+                        <label className="kzui-item-label">Language</label>
+                        <span className="kzui-item-description">
+                            Set the number of courses to show per page on the course list page.
+                        </span>
+                    </div>
                     <input type="text" placeholder="Language" />
                 </div>
             </div>
