@@ -8,6 +8,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { PiDotsSixVerticalLight } from "react-icons/pi";
 import AddNewCurriculum from '../AddNewCurriculum/AddNewCurriculum';
 import Modal from 'react-responsive-modal';
+import { generateUniqueId } from '../../utils';
 import 'react-responsive-modal/styles.css';
 import './CourseBuilder.css';
 
@@ -32,16 +33,6 @@ const CourseBuilder = () => {
 
     const onCloseContentModal = () => { setOpenContentModal(false); setOpenBuildFromExisting(false) }
     const onCloseLessonModal = () => setOpenLessonModal(false);
-
-    function generateUniqueId() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let uniqueId = '';
-        for (let i = 0; i < 4; i++) {
-            const randomIndex = Math.floor(Math.random() * chars.length);
-            uniqueId += chars[randomIndex];
-        }
-        return uniqueId;
-    }
 
     const handleCurriculumSubmit = (e) => {
         e.preventDefault();
