@@ -3,25 +3,28 @@ import { BsThreeDots } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { SlCloudUpload } from "react-icons/sl";
 import { MdEdit, MdDelete } from "react-icons/md";
+import { PiDotsSixVerticalLight } from "react-icons/pi";
+import AddNewCurriculum from '../AddNewCurriculum/AddNewCurriculum';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import './CourseBuilder.css';
-import AddNewCurriculum from '../AddNewCurriculum/AddNewCurriculum';
 
 const CourseBuilder = () => {
     const [newCurriculum, setNewCurriculum] = useState(false);
     const [newSubCurriculum, setNewSubCurriculum] = useState(false);
     const [openContentModal, setOpenContentModal] = useState(false);
     const [openLessonModal, setOpenLessonModal] = useState(false);
+    const [openBuildFromExisting, setOpenBuildFromExisting] = useState(false);
     const [currentCurriculum, setCurrentCurriculum] = useState({});
     const [currentCurriculumId, setCurrentCurriculumId] = useState('');
     const [currentSubCurriculumId, setCurrentSubCurriculumId] = useState('');
     const [currentLessonId, setCurrentLessonId] = useState('');
     const [currentSubCurriculumLessonId, setCurrentSubCurriculumLessonId] = useState('');
     const [activeEditOption, setActiveEditOption] = useState(null);
-    const [activeEditOption2, setActiveEditOption2] = useState(null); 
-    const [expandedCurriculum, setExpandedCurriculum] = useState(null); 
-    const [expandedCurriculum2, setExpandedCurriculum2] = useState(null); 
+    const [activeEditOption2, setActiveEditOption2] = useState(null);
+    const [expandedCurriculum, setExpandedCurriculum] = useState(null);
+    const [expandedCurriculum2, setExpandedCurriculum2] = useState(null);
+    const [currentLessons, setCurrentLessons] = useState([]);
     const [curriculumData, setCurriculumData] = useState([
         {
             id: 1, title: 'Curriculum 1', summary: "Curriculum 1 summary",
@@ -33,15 +36,15 @@ const CourseBuilder = () => {
                 {
                     id: 111, title: 'sub Curriculum 1', summary: "sub Curriculum 1 summary",
                     subCurriculumContents: [
-                        { id: 1111, lessonTitle: 'sub Lesson 1', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 1 content' },
-                        { id: 2222, lessonTitle: 'sub Lesson 2', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 2 content' },
+                        { id: 1111, lessonTitle: 'sub Lesson 1', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 1 content', checked: false },
+                        { id: 2222, lessonTitle: 'sub Lesson 2', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 2 content', checked: true },
                     ]
                 },
                 {
                     id: 222, title: 'sub Curriculum 2', summary: "sub Curriculum 2 summary",
                     subCurriculumContents: [
-                        { id: 11111, lessonTitle: 'sub Lesson 1', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 1 content' },
-                        { id: 22222, lessonTitle: 'sub Lesson 2', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 2 content' },
+                        { id: 11111, lessonTitle: 'sub Lesson 1', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 1 content', checked: false },
+                        { id: 22222, lessonTitle: 'sub Lesson 2', lessonSlug: 'lesson slug', lessonContent: 'Sub Lesson 2 content', checked: true },
                     ]
                 },
             ]
@@ -49,7 +52,7 @@ const CourseBuilder = () => {
         { id: 2, title: 'Curriculum 2', summary: "Curriculum 2 summary", curriculumContents: [], subCurriculums: [] },
     ]);
 
-    const onCloseContentModal = () => setOpenContentModal(false);
+    const onCloseContentModal = () => { setOpenContentModal(false); setOpenBuildFromExisting(false) }
     const onCloseLessonModal = () => setOpenLessonModal(false);
 
     function generateUniqueId() {
@@ -68,7 +71,7 @@ const CourseBuilder = () => {
         const title = form.title.value;
         const summary = form.summary.value;
 
-        const newCurriculum = {
+        const newCurriculumData = {
             id: currentCurriculumId || generateUniqueId(),
             title: title,
             summary: summary,
@@ -117,13 +120,13 @@ const CourseBuilder = () => {
                 );
             }
 
-            return [...prevCurriculumData, newCurriculum];
+            return [...prevCurriculumData, newCurriculumData];
         });
 
         setCurrentCurriculumId('');
         setCurrentSubCurriculumId('');
         setNewCurriculum(false);
-        setNewSubCurriculum(false); 
+        setNewSubCurriculum(false);
     };
 
     const handleDeleteCurriculum = (id) => {
@@ -188,7 +191,7 @@ const CourseBuilder = () => {
             );
 
             if (currentLesson) {
-                setCurrentCurriculum(currentLesson); 
+                setCurrentCurriculum(currentLesson);
                 return;
             }
             for (const subCurriculum of currentCurriculum.subCurriculums) {
@@ -216,16 +219,42 @@ const CourseBuilder = () => {
         const lessonContent = form.lessonContent.value;
 
         const newLesson = {
-            id: generateUniqueId(), 
+            id: generateUniqueId(),
             lessonTitle: lessonTitle,
             lessonSlug: lessonSlug,
             lessonContent: lessonContent,
+            checked: true,
+        };
+
+        const subLesson = {
+            id: generateUniqueId(),
+            lessonTitle: lessonTitle,
+            lessonSlug: lessonSlug,
+            lessonContent: lessonContent,
+            checked: false,
         };
 
         setCurriculumData((prevCurriculumData) =>
             prevCurriculumData.map((curriculum) => {
                 if (curriculum.id === currentCurriculumId) {
-
+                    if (openBuildFromExisting && currentSubCurriculumId) {
+                        setCurrentLessons((prevLessons) => [...(prevLessons || []), subLesson]);
+                        return {
+                            ...curriculum,
+                            subCurriculums: curriculum?.subCurriculums?.map((subCurriculum) =>
+                                subCurriculum.id === currentSubCurriculumId
+                            ? {
+                                ...subCurriculum,
+                                        subCurriculumContents: [
+                                            ...(subCurriculum?.subCurriculumContents || []),
+                                            subLesson,
+                                        ],
+                                    }
+                                    : subCurriculum
+                                ),
+                            };
+                        }
+                        setCurrentLessons((prevLessons) => [...(prevLessons || []), newLesson]);
                     if (
                         ((typeof currentSubCurriculumLessonId === 'string' && currentSubCurriculumLessonId.length > 0) ||
                             (typeof currentSubCurriculumLessonId === 'number' && currentSubCurriculumLessonId > 0)) ||
@@ -284,6 +313,22 @@ const CourseBuilder = () => {
         onCloseLessonModal();
     };
 
+    const handleCheckboxChange = (id) => {
+        const updatedLessons = currentLessons.map(lesson =>
+            lesson.id === id ? { ...lesson, checked: !lesson.checked } : lesson
+        );
+        const updatedCurriculumData = curriculumData.map(curriculum => ({
+            ...curriculum,
+            subCurriculums: curriculum.subCurriculums.map(subCurriculum => ({
+                ...subCurriculum,
+                subCurriculumContents: subCurriculum.subCurriculumContents.map(content =>
+                    content.id === id ? { ...content, checked: !content.checked } : content
+                )
+            }))
+        }));
+        setCurrentLessons(updatedLessons); // Update the state
+        setCurriculumData(updatedCurriculumData);
+    };
 
     return (
         <>
@@ -295,7 +340,7 @@ const CourseBuilder = () => {
                         {curriculumData.map((curriculum) => (
                             <div key={curriculum.id} className='kzui-course-builder__curriculum-item'>
                                 <div className='kzui-course-builder__curriculum-item__header'>
-                                    <h4>{curriculum.title}</h4>
+                                    <h4><PiDotsSixVerticalLight />{curriculum.title}</h4>
 
                                     <div className='kzui-course-builder__curriculum-item__edit'>
                                         <BsThreeDots
@@ -349,7 +394,7 @@ const CourseBuilder = () => {
                                                     key={curriculumContent.id}
                                                     className='kzui-course-builder__curriculum-item__curriculum-content'
                                                 >
-                                                    <p>Lesson - {curriculumContent.lessonTitle}</p>
+                                                    <p><PiDotsSixVerticalLight /> Lesson - {curriculumContent.lessonTitle}</p>
                                                     <div className='kzui-course-builder__curriculum-item__curriculum-content__buttons'>
                                                         <button
                                                             onClick={() => {
@@ -374,7 +419,7 @@ const CourseBuilder = () => {
                                                     className='kzui-course-builder__sub-curriculum-item'
                                                 >
                                                     <div className='kzui-course-builder__curriculum-item__header'>
-                                                        <p>Sub Curriculum - {subCurriculum.title}</p>
+                                                        <p><PiDotsSixVerticalLight /> Sub Curriculum - {subCurriculum.title}</p>
                                                         <div className='kzui-course-builder__curriculum-item__edit'>
                                                             <BsThreeDots
                                                                 onClick={() =>
@@ -427,33 +472,38 @@ const CourseBuilder = () => {
                                                             <div>
                                                                 <div className='kzui-course-builder__curriculum-item__divider'></div>
                                                                 {subCurriculum?.subCurriculumContents?.length > 0 && (
-                                                                    subCurriculum.subCurriculumContents.map((subCurriculumContent) => (
-                                                                        <div
-                                                                            key={subCurriculumContent.id}
-                                                                            className='kzui-course-builder__curriculum-item__curriculum-content'
-                                                                        >
-                                                                            <p>Lesson - {subCurriculumContent.lessonTitle}</p>
-                                                                            <div className='kzui-course-builder__curriculum-item__curriculum-content__buttons'>
-                                                                                <button
-                                                                                    onClick={() => {
-                                                                                        handleEditLesson(curriculum.id, subCurriculumContent.id)
-                                                                                        setCurrentCurriculumId(curriculum.id)
-                                                                                        setCurrentSubCurriculumId(subCurriculum.id)
-                                                                                        setCurrentSubCurriculumLessonId(subCurriculumContent.id)
-                                                                                        setOpenLessonModal(true)
-                                                                                    }}
-                                                                                ><MdEdit /></button>
-                                                                                <button onClick={() => {
-                                                                                    handleDeleteSubCurriculumLesson(curriculum.id, subCurriculum.id, subCurriculumContent.id);
-                                                                                }}><MdDelete /></button>
-                                                                            </div>
-                                                                        </div>
-                                                                    )))}
+                                                                    subCurriculum.subCurriculumContents.map((subCurriculumContent) => {
+                                                                        if (subCurriculumContent?.checked) {
+                                                                            return (
+                                                                                <div
+                                                                                    key={subCurriculumContent.id}
+                                                                                    className='kzui-course-builder__curriculum-item__curriculum-content'
+                                                                                >
+                                                                                    <p><PiDotsSixVerticalLight /> Lesson - {subCurriculumContent.lessonTitle}</p>
+                                                                                    <div className='kzui-course-builder__curriculum-item__curriculum-content__buttons'>
+                                                                                        <button
+                                                                                            onClick={() => {
+                                                                                                handleEditLesson(curriculum.id, subCurriculumContent.id)
+                                                                                                setCurrentCurriculumId(curriculum.id)
+                                                                                                setCurrentSubCurriculumId(subCurriculum.id)
+                                                                                                setCurrentSubCurriculumLessonId(subCurriculumContent.id)
+                                                                                                setOpenLessonModal(true)
+                                                                                            }}
+                                                                                        ><MdEdit /></button>
+                                                                                        <button onClick={() => {
+                                                                                            handleDeleteSubCurriculumLesson(curriculum.id, subCurriculum.id, subCurriculumContent.id);
+                                                                                        }}><MdDelete /></button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                    }))}
 
                                                                 <button className='kzui-sub-curriculum-content-button' onClick={() => {
                                                                     setOpenContentModal(true)
                                                                     setCurrentCurriculumId(curriculum.id)
                                                                     setCurrentSubCurriculumId(subCurriculum.id)
+                                                                    setCurrentLessons(subCurriculum?.subCurriculumContents)
                                                                 }}>
                                                                     + Add Content
                                                                 </button>
@@ -498,7 +548,7 @@ const CourseBuilder = () => {
                 {
                     newCurriculum && (
                         <AddNewCurriculum
-                            handleNewCurriculumSubmit={handleNewCurriculumSubmit}
+                            handleNewCurriculumSubmit={handleCurriculumSubmit}
                             setNewCurriculum={setNewCurriculum}
                         />
                     )
@@ -516,19 +566,60 @@ const CourseBuilder = () => {
                 modal: "kzui-content-modal"
             }} open={openContentModal} onClose={onCloseContentModal} center>
                 <div className='kzui-content-modal-header'>
-                    <button>Start from scratch</button>
-                    <button>Build from existing</button>
+                    <button onClick={() => {
+                        setOpenBuildFromExisting(false);
+                    }}>Start from scratch</button>
+                    <button onClick={() => {
+                        setOpenBuildFromExisting(true)
+                    }}>Build from existing</button>
                 </div>
                 <div className='kzui-divider'></div>
-                <div className='kzui-content-modal-contents'>
-                    <button onClick={() => {
-                        setOpenLessonModal(true)
-                        setCurrentCurriculum({})
-                    }}>Add Lesson</button>
-                    <button>Add Quiz</button>
-                    <button>New Assignment</button>
-                    <button>Add Tutor Booking</button>
-                </div>
+                {
+                    openBuildFromExisting ? (
+                        <div className='kzui-content-modal-existing-build'>
+                            <div className='kzui-content-modal-existing-build__sidebar'>
+                                <button className='lesson'>Lesson</button>
+                                <button>Quiz</button>
+                                <button>Assignment</button>
+                                <button>Tutor Booking</button>
+                            </div>
+                            <div className='kzui-content-modal-existing-build__contents'>
+                                <div className='kzui-content-modal-existing-build__contents__header'>
+                                    <input type="text" placeholder='Search' />
+                                    <button onClick={() => {
+                                        setOpenLessonModal(true)
+                                        setCurrentCurriculum({})
+                                    }}>Add Lesson</button>
+                                </div>
+                                <div className='kzui-content-modal-existing-build__contents__lessons'>
+                                    {currentLessons.length > 0 && currentLessons.map((lesson) => (
+                                        <div key={lesson.id} className='kzui-content-modal-existing-build__contents__lessons__item'>
+                                            <div>
+                                                <input type="checkbox" checked={lesson.checked} onChange={() => handleCheckboxChange(lesson.id)} />
+                                                <label>{lesson.lessonTitle}</label>
+                                            </div>
+                                            <button onClick={() => {
+                                                handleEditLesson(currentCurriculumId, lesson.id)
+                                                setCurrentSubCurriculumLessonId(lesson.id)
+                                                setOpenLessonModal(true)
+                                            }}><MdEdit /></button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className='kzui-content-modal-contents'>
+                            <button onClick={() => {
+                                setOpenLessonModal(true)
+                                setCurrentCurriculum({})
+                            }}>Add Lesson</button>
+                            <button>Add Quiz</button>
+                            <button>New Assignment</button>
+                            <button>Add Tutor Booking</button>
+                        </div>
+                    )
+                }
             </Modal>
 
             <Modal classNames={{

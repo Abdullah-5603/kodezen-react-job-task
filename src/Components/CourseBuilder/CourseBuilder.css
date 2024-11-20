@@ -170,7 +170,7 @@
     transition: 0.3s;
 }
 
-.kzui-course-builder__curriculum-item__curriculum-content{
+.kzui-course-builder__curriculum-item__curriculum-content {
     width: 100%;
     margin-top: 10px;
     padding: 10px;
@@ -182,12 +182,14 @@
     align-items: center;
     gap: 10px;
 }
-.kzui-course-builder__curriculum-item__curriculum-content__buttons{
+
+.kzui-course-builder__curriculum-item__curriculum-content__buttons {
     display: flex;
     flex-direction: row;
     gap: 10px;
 }
-.kzui-course-builder__curriculum-item__curriculum-content__buttons button{
+
+.kzui-course-builder__curriculum-item__curriculum-content__buttons button {
     padding: 3px 4px;
     margin: auto;
     color: white;
@@ -197,15 +199,13 @@
     cursor: pointer;
 }
 
-.kzui-sub-curriculum-content-button{
+.kzui-sub-curriculum-content-button {
     color: #7B68EE;
     background-color: transparent;
     padding: 10px 15px;
     border: none;
     cursor: pointer;
 }
-
-
 
 .kzui-divider {
     border: 1px solid #EEEEEE;
@@ -243,7 +243,6 @@
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    /* Adjust as needed */
     gap: 20px;
 }
 
@@ -271,7 +270,100 @@
     gap: 10px;
 }
 
-.kzui-lesson-modal__input textarea{
+.kzui-lesson-modal__input textarea {
     width: 100%;
     height: 150px;
+}
+
+.kzui-content-modal-existing-build{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: start;
+}
+.kzui-content-modal-existing-build__sidebar{
+    width: 25%;
+    padding:10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 10px;
+    border-right: 2px solid #EEEEEE;
+}
+.kzui-content-modal-existing-build__sidebar button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    width: 100%;
+    display: flex;
+    padding: 10px 15px;
+}
+.kzui-content-modal-existing-build__sidebar .lesson{
+    background-color: #7B68EE;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+}
+
+.kzui-content-modal-existing-build__contents{
+    width: 75%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.kzui-content-modal-existing-build__contents__header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.kzui-content-modal-existing-build__contents__header button{
+    background-color: #7B68EE;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.kzui-content-modal-existing-build__contents__lessons{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.kzui-content-modal-existing-build__contents__lessons__item{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid #EEEEEE;
+    border-radius: 5px;
+}
+.kzui-content-modal-existing-build__contents__lessons__item div{
+    display: flex;
+    gap: 10px;
+}
+.kzui-content-modal-existing-build__contents__lessons__item button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 15px;
 }
